@@ -1,7 +1,7 @@
 {
   "name": "atom-netconf",
   "main": "./lib/netconf",
-  "version": "1.0.0",
+  "version": "0.0.9",
   "description": "Netconf implementation for the Atom Text Editor",
   "license": "MIT",
   "author": {
@@ -15,7 +15,13 @@
     }
   ],
   "keywords": [
-    "netconf", "yang", "rfc6241", "client", "SSHv2", "SR OS", "Nokia"
+    "netconf",
+    "yang",
+    "rfc6241",
+    "client",
+    "SSHv2",
+    "SR OS",
+    "Nokia"
   ],
   "dependencies": {
     "diff": ">=2.2.2",
@@ -28,7 +34,10 @@
       }
     }
   },
-  "repository": "https://github.com/nokia/atom-netconf.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nokia/atom-netconf.git"
+  },
   "engines": {
     "atom": ">=1.8.0"
   }
