@@ -39,6 +39,6 @@
     "url": "git+https://github.com/nokia/atom-netconf.git"
   },
   "engines": {
-    "atom": ">=1.8.0"
+    "atom": ">=1.6.0"
   }
 }

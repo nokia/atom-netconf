@@ -9,7 +9,7 @@ SSHv2 with username/password authentication only as described in
 [RFC 6242](https://tools.ietf.org/html/rfc6242). Only base:1.0 *end-of-message
 framing* is supported.
 
-![Netconf Package](screenshot.png)
+![Netconf Package](https://raw.githubusercontent.com/nokia/atom-netconf/master/screenshot.png)
 
 To use this package, it is required to specify connection details in the
 package settings. All features are accessible from toolbars which are added
@@ -17,4 +17,4 @@ to the ATOM statusbar. A limited feature-set is accessible from the ATOM
 menubar and context menus.
 
 **Copyright (c) 2016**  
-![NOKIA](logo-tiny.png)
+![NOKIA](https://raw.githubusercontent.com/nokia/atom-netconf/master/logo-tiny.png)
