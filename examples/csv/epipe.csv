@@ -1,0 +1,4 @@
+id,svcname,description,sap1,sap2
+2000,EPIPE 2000,management,1/1/1:2000,1/1/2:2000
+2001,EPIPE 2001,accounting,1/1/1:2001,1/1/2:3001
+2002,EPIPE 2002,data,1/1/1:2002,1/1/2:4002

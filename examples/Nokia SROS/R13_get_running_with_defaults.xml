@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc message-id="r13_get_running_with_defaults" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <get-config>
+    <source><running/></source>
+    <filter type="subtree">
+      <configure xmlns="urn:alcatel-lucent.com:sros:ns:yang:conf-r13" />
+    </filter>
+    <with-defaults xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-with-defaults">
+      report-all
+    </with-defaults>
+  </get-config>
+</rpc>

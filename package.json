@@ -1,0 +1,35 @@
+{
+  "name": "atom-netconf",
+  "main": "./lib/netconf",
+  "version": "1.0.0",
+  "description": "Netconf implementation for the Atom Text Editor",
+  "license": "MIT",
+  "author": {
+    "name": "Sven Wisotzky",
+    "email": "not public"
+  },
+  "contributors": [
+    {
+      "name": "Bart de Wilde",
+      "email": "not public"
+    }
+  ],
+  "keywords": [
+    "netconf", "yang", "rfc6241", "client", "SSHv2", "SR OS", "Nokia"
+  ],
+  "dependencies": {
+    "diff": ">=2.2.2",
+    "ssh2": "~0.4.14"
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "repository": "https://github.com/nokia/atom-netconf.git",
+  "engines": {
+    "atom": ">=1.8.0"
+  }
+}

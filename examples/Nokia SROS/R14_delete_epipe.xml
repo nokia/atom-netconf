@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc message-id="r14_delete_epipe" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <edit-config>
+    <target><candidate/></target>
+    <config>
+      <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf">
+        <service>
+          <epipe operation="delete">
+            <service-id>1000</service-id>
+          </epipe>
+        </service>
+      </configure>
+    </config>
+  </edit-config>
+</rpc>

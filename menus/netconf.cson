@@ -1,0 +1,29 @@
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'netconf rpc'
+      'command': 'netconf:sendrpc'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'netconf'
+      'submenu': [
+        {
+          'label': 'Connect'
+          'command': 'netconf:connect'
+        }
+        {
+          'label': 'RPC'
+          'command': 'netconf:sendrpc'
+        }
+        {
+          'label': 'Disconnect'
+          'command': 'netconf:disconnect'
+        }
+      ]
+    ]
+  }
+]
