@@ -1,7 +1,7 @@
 {
   "name": "atom-netconf",
   "main": "./lib/netconf",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Netconf implementation for the Atom Text Editor",
   "license": "MIT",
   "author": {
@@ -25,7 +25,7 @@
   ],
   "dependencies": {
     "diff": ">=2.2.2",
-    "ssh2": "~0.4.14"
+    "ssh2": ">=0.5.3"
   },
   "consumedServices": {
     "status-bar": {

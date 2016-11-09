@@ -457,8 +457,6 @@ class XmlToolbar extends HTMLElement
       file_ext = path.extname(filepath)
       filebase = path.basename(filepath, file_ext)
 
-      console.log filetype
-      console.log file_ext
       if filetype in ['text.xml.xsl']
         @classList.remove('hidden')
         @icon_xslt.classList.remove('hidden')

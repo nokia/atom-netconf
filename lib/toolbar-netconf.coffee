@@ -145,7 +145,8 @@ class NetconfToolbar extends HTMLElement
 
       if filetype in ['text.plain.null-grammar', 'text.plain', 'text.xml']
         xmlrpc = editor.getText()
-        @client.rpc xmlrpc, 'default', (msgid, msg) =>
+        timeout = atom.config.get 'atom-netconf.server.timeout'
+        @client.rpc xmlrpc, 'default', timeout, (msgid, msg) =>
           @status.result "responses/#{msgid}.xml", msg
           # todo: improvement to suppress window in case of <ok> results
 
@@ -156,7 +157,8 @@ class NetconfToolbar extends HTMLElement
               <source><running/></source>
             </get-config>
           </rpc>"""
-        @client.rpc xmlreq, 'default', (msgid, msg) =>
+        timeout = atom.config.get 'atom-netconf.server.timeout'
+        @client.rpc xmlreq, 'default', timeout, (msgid, msg) =>
           xmldom = (new DOMParser).parseFromString msg, "text/xml"
           result = xmltools.format(editor.getText(), xmldom)
           # todo: potential improvement ncclient already has converted xml text>dom

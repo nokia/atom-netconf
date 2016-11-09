@@ -6,8 +6,10 @@ runs against a NETCONF server, such as NOKIA 7750 Service Routers.
 
 In the current implementation this NETCONF client is using NETCONF over
 SSHv2 with username/password authentication only as described in
-[RFC 6242](https://tools.ietf.org/html/rfc6242). Only base:1.0 *end-of-message
-framing* is supported.
+[RFC 6242](https://tools.ietf.org/html/rfc6242).
+
+Both base:1.0 *end-of-message framing* and base:1.1 *chunked-framing* are
+both supported.
 
 ![Netconf Package](https://raw.githubusercontent.com/nokia/atom-netconf/master/screenshot.png)
 

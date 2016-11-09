@@ -102,7 +102,7 @@ class CandidateToolbar extends HTMLElement
   do_compare: =>
     console.debug '::do_compare()' if @debugging
 
-    if @client.isNokiaSROS
+    if @client.isNokiaSROS()
       xmlreq = """<?xml version="1.0" encoding="UTF-8"?>
         <rpc message-id="get-config running" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
           <get-config>
@@ -120,8 +120,9 @@ class CandidateToolbar extends HTMLElement
           </get-config>
         </rpc>"""
 
-    @client.rpc xmlreq, 'data', (id, running) =>
-      if @client.isNokiaSROS
+    timeout = atom.config.get 'atom-netconf.server.timeout'
+    @client.rpc xmlreq, 'data', timeout, (id, running) =>
+      if @client.isNokiaSROS()
         xmlreq = """<?xml version="1.0" encoding="UTF-8"?>
           <rpc message-id="get-config candidate" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
             <get-config>
@@ -139,7 +140,8 @@ class CandidateToolbar extends HTMLElement
             </get-config>
           </rpc>"""
 
-      @client.rpc xmlreq, 'data', (id, candidate) =>
+      timeout = atom.config.get 'atom-netconf.server.timeout'
+      @client.rpc xmlreq, 'data', timeout, (id, candidate) =>
         foldLevel =  atom.config.get 'atom-netconf.behavior.xmlFoldLevel'
         @status.compare running, candidate, foldLevel-1
 

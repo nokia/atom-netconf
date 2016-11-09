@@ -98,7 +98,9 @@ class NokiaToolbar extends HTMLElement
           </filter>
         </get-config>
       </rpc>"""
-    @client.rpc xmlreq, 'sros', (msgid, msg) =>
+
+    timeout = atom.config.get 'atom-netconf.server.timeout'
+    @client.rpc xmlreq, 'sros', timeout, (msgid, msg) =>
       foldLevel =  atom.config.get 'atom-netconf.behavior.xmlFoldLevel'
       @status.result "responses/running.xml", msg, foldLevel-2
 
@@ -113,7 +115,9 @@ class NokiaToolbar extends HTMLElement
           </filter>
         </get-config>
       </rpc>"""
-    @client.rpc xmlreq, 'sros', (msgid, msg) =>
+
+    timeout = atom.config.get 'atom-netconf.server.timeout'
+    @client.rpc xmlreq, 'sros', timeout, (msgid, msg) =>
       foldLevel =  atom.config.get 'atom-netconf.behavior.xmlFoldLevel'
       @status.result "responses/candidate.xml", msg, foldLevel-2
 
@@ -144,7 +148,8 @@ class NokiaToolbar extends HTMLElement
     doc.appendChild rpc         # add <rpc> node
     xmlreq = xmltools.prettify(doc)
 
-    @client.rpc xmlreq, 'sros', (msgid, msg) =>
+    timeout = atom.config.get 'atom-netconf.server.timeout'
+    @client.rpc xmlreq, 'sros', timeout, (msgid, msg) =>
       console.log "successfully validated" if @debugging
 
   do_edit: =>
@@ -176,7 +181,8 @@ class NokiaToolbar extends HTMLElement
     doc.appendChild rpc          # add <rpc> node
     xmlreq = xmltools.prettify(doc)
 
-    @client.rpc xmlreq, 'sros', (msgid, msg) =>
+    timeout = atom.config.get 'atom-netconf.server.timeout'
+    @client.rpc xmlreq, 'sros', timeout, (msgid, msg) =>
       console.log "edit-config was successful" if @debugging
 
   # --- update user-interface tasks -------------------------------------------

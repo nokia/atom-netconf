@@ -46,6 +46,11 @@ module.exports =
           type:    'string'
           default: 'netconf'
 
+        timeout:
+          title:   '<rpc-reply> timeout in seconds'
+          type:    'integer'
+          default: 30
+
     behavior:
       title: 'Look and Feel'
       type: 'object'
