@@ -15,13 +15,10 @@ Enhanced Features (beta):
 * Smart XML TAG Selection using CTRL-SHIFT-A
 * Generate CSV Table from XML using interactive XPATH
 
-### 1.1.0 - Updates (9th November 2016)
+### 1.1.x - Updates (November 2016)
 * add support for base:1.1 chunked framing
 * uprade to version 0.5 of ssh2 library
-* add configurable rpc-request timeout
+* add configurable rpc-request timeout (default 5min)
 * improved cleanup for netconf errors/disconnect
-
-### 1.1.2 - Updates (10th November 2016)
 * add support for SSH Greeting/Banner
-* change default timeout to 5min
 
