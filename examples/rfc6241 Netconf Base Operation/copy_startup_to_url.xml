@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc message-id="101" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <copy-config>
+    <source>
+      <startup/>
+    </source>
+    <target>
+      <url>ftp://ftp_timos:ftp_timos@172.22.108.10:/192.168.33.5</url>
+    </target>
+  </copy-config>
+</rpc>
