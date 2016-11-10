@@ -47,9 +47,14 @@ module.exports =
           default: 'netconf'
 
         timeout:
-          title:   '<rpc-reply> timeout in seconds'
+          title:   'Netconf Timeout'
           type:    'integer'
-          default: 30
+          default: 300
+          description : "Time to wait after an <rpc> message has been send,
+          to receive an appropriate <rpc-reply> with the same message-id.
+          Timeout is defined in seconds, default is 300 (5min).
+          Please be aware that <get-config> on larger configurations might
+          take time, so it is not recommended to use short timers."
 
     behavior:
       title: 'Look and Feel'
@@ -60,6 +65,12 @@ module.exports =
           title: 'Enable Audio'
           type : 'boolean'
           default : true
+
+        displayBanner :
+          title: 'Display SSH Banner/Greeting'
+          type : 'boolean'
+          default : true
+          description : "Display SSH Banner/Greeting as Notification"
 
         sampleHello :
           title: 'Sample Hello'

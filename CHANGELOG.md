@@ -20,3 +20,8 @@ Enhanced Features (beta):
 * uprade to version 0.5 of ssh2 library
 * add configurable rpc-request timeout
 * improved cleanup for netconf errors/disconnect
+
+### 1.1.2 - Updates (10th November 2016)
+* add support for SSH Greeting/Banner
+* change default timeout to 5min
+

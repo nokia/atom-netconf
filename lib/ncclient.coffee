@@ -233,11 +233,13 @@ class ncclient extends EventEmitter
     @ssh.on 'end', =>
       console.log "ssh end" if @debugging
 
-    @ssh.on 'banner', (msg) ->
-      console.log "banner:", msg
+    @ssh.on 'banner', (msg) =>
+      console.log "banner:\n", msg
+      @emit 'ssh-banner', msg
 
-    @ssh.on 'greeting', (msg) ->
-      console.log "greeting:", msg
+    @ssh.on 'greeting', (msg) =>
+      console.log "greeting:\n", msg
+      @emit 'ssh-greeting', msg
 
     @ssh.on 'ready', =>
 

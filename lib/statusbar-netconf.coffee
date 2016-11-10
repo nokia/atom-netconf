@@ -70,10 +70,13 @@ class Status extends HTMLElement
     @statusBarItem = @statusBar.addRightTile(priority: 200, item: this)
 
   register: (@client) =>
-    @client.on 'warning',   @warning.bind(this)
-    @client.on 'error',     @error.bind(this)
-    @client.on 'rpc-ok',    @rpcOk.bind(this)
-    @client.on 'rpc-error', @rpcError.bind(this)
+    @client.on 'warning',     @warning.bind(this)
+    @client.on 'error',       @error.bind(this)
+    @client.on 'rpc-ok',      @rpcOk.bind(this)
+    @client.on 'rpc-error',   @rpcError.bind(this)
+    @client.on 'rpc-timeout', @rpcTimeout.bind(this)
+    @client.on 'ssh-banner',   @sshBanner.bind(this)
+    @client.on 'ssh-greeting', @sshGreeting.bind(this)
     @client.on 'notification', @notification.bind(this)
     @client.on 'data', (size) => @info_connect.textContent=size
     @client.on 'connected', (hello) =>
@@ -365,6 +368,20 @@ class Status extends HTMLElement
   rpcError: (msgid, xmldom) =>
     if xmldom instanceof XMLDocument
       atom.notifications.addWarning("netconf #{msgid}: failed with rpc-error", detail: xmltools.rpc_error(xmldom), dismissable: true)
+    @audio_warning.play() if atom.config.get 'atom-netconf.behavior.audio'
+
+  sshBanner: (message) =>
+    if atom.config.get 'atom-netconf.behavior.displayBanner'
+      atom.notifications.addInfo('SSH Authentication Banner', detail:message, dismissable: false)
+      @audio_info.play() if atom.config.get 'atom-netconf.behavior.audio'
+
+  sshGreeting: (message) =>
+    if atom.config.get 'atom-netconf.behavior.displayBanner'
+      atom.notifications.addInfo('SSH Greeting', detail:message, dismissable: false)
+      @audio_info.play() if atom.config.get 'atom-netconf.behavior.audio'
+
+  rpcTimeout: (msgid) =>
+    atom.notifications.addWarning("netconf #{msgid}: failed with timeout", dismissable: true)
     @audio_warning.play() if atom.config.get 'atom-netconf.behavior.audio'
 
   locked: (visible) =>
