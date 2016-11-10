@@ -8,7 +8,7 @@
         <nc:target><nc:candidate/></nc:target>
         <nc:config>
           <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf">
-            <service xmlns="urn:nokia.com:sros:ns:yang:sr:conf-service">
+            <service>
               <xsl:for-each select="/*/*">
                 <epipe operation="merge">
                   <customer>1</customer>

@@ -15,10 +15,14 @@ Enhanced Features (beta):
 * Smart XML TAG Selection using CTRL-SHIFT-A
 * Generate CSV Table from XML using interactive XPATH
 
-### 1.1.x - Updates (November 2016)
+### 1.1.x - Updates (9. November 2016)
 * add support for base:1.1 chunked framing
 * uprade to version 0.5 of ssh2 library
 * add configurable rpc-request timeout (default 5min)
 * improved cleanup for netconf errors/disconnect
 * add support for SSH Greeting/Banner
 
+### 1.2.0 - Example Library Updates (10. November 2016)
+* New examples added for RFC6022, RFC7895
+  (ietf-netconf-monitoring, yang library)
+* Updated Nokia SROS examples for 14.0.R5 compatibility
