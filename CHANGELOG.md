@@ -15,7 +15,7 @@ Enhanced Features (beta):
 * Smart XML TAG Selection using CTRL-SHIFT-A
 * Generate CSV Table from XML using interactive XPATH
 
-### 1.1.x - Updates (9. November 2016)
+### 1.1.x - Updates (2016 November 9th)
 * add support for base:1.1 chunked framing
 * uprade to version 0.5 of ssh2 library
 * add configurable rpc-request timeout (default 5min)
@@ -26,3 +26,9 @@ Enhanced Features (beta):
 * New examples added for RFC6022, RFC7895
   (ietf-netconf-monitoring, yang library)
 * Updated Nokia SROS examples for 14.0.R5 compatibility
+
+### 1.3.x - Updates (2017 January 1st)
+* New examples added for OpenConfig (BGP)
+* Support for certificate based authentication
+* Bugfix for timeout behavior
+* Workaround for JUNOS interworking (multiple rpc-errors)

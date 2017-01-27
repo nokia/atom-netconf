@@ -9,7 +9,8 @@ SSHv2 with username/password authentication only as described in
 [RFC 6242](https://tools.ietf.org/html/rfc6242).
 
 Both base:1.0 *end-of-message framing* and base:1.1 *chunked-framing* are
-both supported.
+both supported. Authentication supports username with password or
+certificate.
 
 ![Netconf Package](https://raw.githubusercontent.com/nokia/atom-netconf/master/screenshot.png)
 
