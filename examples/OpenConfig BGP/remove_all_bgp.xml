@@ -1,0 +1,11 @@
+<nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="openconfig_bgp_remove_all">
+  <nc:edit-config>
+    <nc:target>
+      <nc:candidate/>
+    </nc:target>
+    <nc:config>
+      <bgp xmlns="http://openconfig.net/yang/bgp" operation="delete">
+      </bgp>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>
