@@ -97,20 +97,14 @@ class ncclient extends EventEmitter
         if @callbacks[msgid]?
           console.log "callback found for message-id=#{msgid}" if @debugging
 
-          success = false
-          if xmldom.firstElementChild.childElementCount == 1
-            if xmldom.firstElementChild.firstElementChild.localName == "ok"
-              @emit 'rpc-ok', msgid
-              success = true
-            else if xmldom.firstElementChild.firstElementChild.localName == "rpc-error"
-              @emit 'rpc-error', msgid, xmldom
-            else
-              @emit 'rpc-success', msgid, xmldom
-              success = true
+          if xmldom.getElementsByTagName('rpc-error').length >= 1
+            @emit 'rpc-error', msgid, xmldom
           else
-            @emit 'warning', "netconf #{msgid}: failed with malformed rpc-reply", msg
+            for node in xmldom.firstElementChild.childNodes
+              if node.localName=="ok" && node.nodeType==1
+                @emit 'rpc-ok', msgid
+                break
 
-          if success
             mode = atom.config.get 'atom-netconf.behavior.xmlProcessor'
             if @formating[msgid] == 'prettify'
               @callbacks[msgid] msgid, xmltools.prettify(xmldom)
@@ -170,9 +164,9 @@ class ncclient extends EventEmitter
         else
           break    # need to wait for more bytes to come
       else
-        console.log @rawbuf.length, @rawbuf
-        console.log @msgbuf.length, @msgbuf
-        console.log pos
+        # console.log @rawbuf.length, @rawbuf
+        # console.log @msgbuf.length, @msgbuf
+        # console.log pos
         @rawbuf = ""
         @msgbuf = ""
         pos = 0
@@ -198,6 +192,15 @@ class ncclient extends EventEmitter
       @base10Parser(callback)    # BASE_1_0 EOM FRAMING
 
   # --- ncclient public methods ----------------------------------------------
+
+  loadkeyfile: (filename) =>
+    console.debug "::loadkeyfile(#{filename})" if @debugging
+
+    if filename != ""
+      @privkey = require('fs').readFileSync(filename).toString('utf-8')
+      console.log @privkey
+    else
+      @privkey = undefined
 
   connect: (uri) =>
     console.debug "::connect(#{uri})" if @debugging
@@ -291,20 +294,23 @@ class ncclient extends EventEmitter
         ncstream.write ']]>]]>'
 
     {protocol, hostname, port, auth} = url.parse(uri)
-    username = auth.split(':')[0]
-    password = auth.split(':')[1]
+    if auth.indexOf(':') != -1
+      username = auth.split(':')[0]
+      password = auth.split(':')[1]
+    else
+      username = auth
+      password = undefined
 
     @ssh.connect
       host:     hostname
       port:     port
       username: username
       password: password
-      # algorithms:
-      #  cipher: ["3des-cbc"]
       algorithms:
         kex: ["ecdh-sha2-nistp256","diffie-hellman-group-exchange-sha256","diffie-hellman-group14-sha1","diffie-hellman-group-exchange-sha1","diffie-hellman-group1-sha1"]
         cipher: ["aes128-ctr","aes192-ctr","aes256-ctr","aes128-gcm","aes256-gcm","aes256-cbc","3des-cbc"]
       debug:    @debugSSH
+      privateKey: @privkey
 
   rpc: (request, format='default', timeout=300, callback) =>
     console.debug "::rpc()" if @debugging
@@ -369,7 +375,7 @@ class ncclient extends EventEmitter
     if @connected
       if not @locked
         xmlrpc = """<?xml version="1.0" encoding="UTF-8"?><rpc message-id="lock" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><lock><target><candidate/></target></lock></rpc>"""
-        @rpc xmlrpc, 'default',  =>
+        @rpc xmlrpc, 'default', 60,  =>
           @emit 'locked', true
           @locked = true
       else
@@ -382,7 +388,7 @@ class ncclient extends EventEmitter
     if @connected
       if @locked
         xmlrpc = """<?xml version="1.0" encoding="UTF-8"?><rpc message-id="unlock" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><unlock><target><candidate/></target></unlock></rpc>"""
-        @rpc xmlrpc, 'default', =>
+        @rpc xmlrpc, 'default', 60, =>
           @emit 'locked', false
           @locked = false
       else
@@ -394,19 +400,19 @@ class ncclient extends EventEmitter
     console.debug "::commit()" if @debugging
     if @connected
       xmlrpc = """<?xml version="1.0" encoding="UTF-8"?><rpc message-id="commit" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><commit/></rpc>"""
-      @rpc xmlrpc, 'default', => @emit 'committed'
+      @rpc xmlrpc, 'default', 60, => @emit 'committed'
 
   discard: =>
     console.debug "::discard()" if @debugging
     if @connected
       xmlrpc = """<?xml version="1.0" encoding="UTF-8"?><rpc message-id="discard" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><discard-changes/></rpc>"""
-      @rpc xmlrpc, 'default', => @emit 'discarded'
+      @rpc xmlrpc, 'default', 60, => @emit 'discarded'
 
   validate: =>
     console.debug "::validate()" if @debugging
     if @connected
       xmlrpc = """<?xml version="1.0" encoding="UTF-8"?><rpc message-id="validate" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><validate><source><candidate/></source></validate></rpc>"""
-      @rpc xmlrpc, 'default', => @emit 'validated'
+      @rpc xmlrpc, 'default', 60, => @emit 'validated'
 
   close: =>
     console.debug "::close()" if @debugging

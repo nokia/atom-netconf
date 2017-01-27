@@ -125,7 +125,18 @@ class NetconfToolbar extends HTMLElement
       port = atom.config.get 'atom-netconf.server.port'
       username = atom.config.get 'atom-netconf.server.username'
       password = atom.config.get 'atom-netconf.server.password'
-      @client.connect "netconf://#{username}:#{password}@#{host}:#{port}/"
+      keysfile = atom.config.get 'atom-netconf.server.keysfile'
+
+      if password != ""
+        # if password is provided, use password auth
+        @client.connect "netconf://#{username}:#{password}@#{host}:#{port}/"
+      else if keysfile != ""
+        # if keysfile is provided, use private key auth
+        @client.loadkeyfile(keysfile)
+        @client.connect "netconf://#{username}@#{host}:#{port}/"
+      else
+        # neither password nor keysfile has been provided, use 'none' auth
+        @client.connect "netconf://#{username}@#{host}:#{port}/"
 
   do_disconnect: =>
     console.debug "::do_disconnect()" if @debugging

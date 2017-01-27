@@ -44,7 +44,18 @@ module.exports =
         password:
           title:   'Password'
           type:    'string'
-          default: 'netconf'
+          default: ''
+          description: "Password of the user. If empty, password authentication
+          will be disabled."
+
+        keysfile:
+          title:   'Private Key File'
+          type:    'string'
+          default: ''
+          description: "Complete path of the file containing private keys
+          for SSHv2 authentication. On Linux and MacOS X you could use
+          ~/.ssh2/id_rsa to access the registered private keys of the user.
+          If empty, key authentication will be disabled."
 
         timeout:
           title:   'Netconf Timeout'

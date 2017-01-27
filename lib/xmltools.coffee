@@ -35,7 +35,9 @@ class xmltools
       <xsl:output method="xml" indent="yes"/>
       <xsl:strip-space elements="*"/>
       <xsl:template match="/">
-        <xsl:copy-of xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" select="//nc:rpc-error"/>
+        <rpc-errors>
+          <xsl:copy-of xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" select="//nc:rpc-error"/>
+        </rpc-errors>
       </xsl:template>
     </xsl:stylesheet>"""
 
