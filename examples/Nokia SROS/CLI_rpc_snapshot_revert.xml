@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc message-id="100" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <cli-action>
+    <admin>rollback revert latest-rb</admin>
+  </cli-action>
+</rpc>
