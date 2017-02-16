@@ -255,7 +255,7 @@ class Status extends HTMLElement
 
       element = document.createElement('div')
       element.classList.add('title')
-      marker = editor.markScreenPosition [editor.getLineCount(),0], {invalidate: 'never', persistent: true}
+      marker = editor.markScreenPosition [editor.getLineCount(),0], {invalidate: 'never'}
       editor.decorateMarker marker, {type: 'block', position: 'after', item: element}
 
       if atom.config.get('atom-netconf.behavior.xmlProcessor')=='minify'
@@ -310,19 +310,19 @@ class Status extends HTMLElement
 
       markers = []
       for line in lines
-        marker = editor.markBufferRange line[0], {invalidate: 'never', persistent: true}
+        marker = editor.markBufferRange line[0], {invalidate: 'never'}
         editor.decorateMarker marker, {type: 'line-number', class: line[1]}
         editor.decorateMarker marker, {type: 'line', class: line[1]}
         markers.push marker
 
       for word in words
-        marker = editor.markBufferRange word[0], {invalidate: 'never', persistent: true}
+        marker = editor.markBufferRange word[0], {invalidate: 'never'}
         editor.decorateMarker marker, {type: 'highlight', class: word[1]}
         markers.push marker
 
       element = document.createElement('div')
       element.classList.add('title')
-      marker = editor.markScreenPosition [editor.getLineCount(),0], {invalidate: 'never', persistent: true}
+      marker = editor.markScreenPosition [editor.getLineCount(),0], {invalidate: 'never'}
       editor.decorateMarker marker, {type: 'block', position: 'after', item: element}
 
       if foldLevel?

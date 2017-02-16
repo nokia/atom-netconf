@@ -89,9 +89,9 @@ class XmlToolbar extends HTMLElement
 
     editor = atom.workspace.getActiveTextEditor()
     filetype = editor.getGrammar().scopeName
-    filepath = editor.getPath()
-    file_ext = path.extname(filepath)
-    filebase = path.basename(filepath, file_ext)
+    filepath = editor.getPath().toString('utf-8')
+    file_ext = path.extname(filepath).toString('utf-8')
+    filebase = path.basename(filepath, file_ext).toString('utf-8')
 
     # --- Create XML-DOM from CSV ---
     columns = editor.lineTextForBufferRow(0).split(',')
