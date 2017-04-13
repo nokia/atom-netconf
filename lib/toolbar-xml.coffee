@@ -454,8 +454,10 @@ class XmlToolbar extends HTMLElement
       editor = atom.workspace.getActiveTextEditor()
       filetype = editor.getGrammar().scopeName
       filepath = editor.getPath()
-      file_ext = path.extname(filepath)
-      filebase = path.basename(filepath, file_ext)
+      if filepath
+        file_ext = path.extname(filepath.toString('utf-8')).toString('utf-8')
+      else
+        file_ext = '.undefined'
 
       if filetype in ['text.xml.xsl']
         @classList.remove('hidden')
