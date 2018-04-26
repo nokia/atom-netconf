@@ -67,6 +67,11 @@ module.exports =
           Please be aware that <get-config> on larger configurations might
           take time, so it is not recommended to use short timers."
 
+        base11:
+          title: 'base:1.1 (enable chunked-framing)'
+          type : 'boolean'
+          default : true
+
     behavior:
       title: 'Look and Feel'
       type: 'object'
@@ -129,7 +134,7 @@ module.exports =
           title:   'Display Results'
           type:    'string'
           default: 'down'
-          enum: ['right', 'down', 'left']
+          enum: ['default', 'right', 'down', 'left']
 
         xmlProcessor:
           title:   'XML Result Post Processing'

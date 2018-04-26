@@ -80,7 +80,7 @@ class ncclient extends EventEmitter
           @emit 'support:candidate'
 
         if capability.firstChild.data == 'urn:ietf:params:netconf:base:1.1'
-          @base_1_1 = true
+          @base_1_1 = @chkframing
 
       mode = atom.config.get 'atom-netconf.behavior.xmlProcessor'
       if mode == 'prettify'
@@ -105,7 +105,6 @@ class ncclient extends EventEmitter
                 @emit 'rpc-ok', msgid
                 break
 
-            mode = atom.config.get 'atom-netconf.behavior.xmlProcessor'
             if @formating[msgid] == 'prettify'
               @callbacks[msgid] msgid, xmltools.prettify(xmldom)
             else if @formating[msgid] == 'minify'
@@ -146,7 +145,7 @@ class ncclient extends EventEmitter
 
   base11Parser: (callback) =>
     pos = 0
-    while (pos<@rawbuf.length) and (@rawbuf.length>3)
+    while (pos+3<@rawbuf.length)
       if @rawbuf[pos...pos+4] == "\n##\n"
         if @msgbuf.length>0
           @msgHandler(@msgbuf)
@@ -254,6 +253,7 @@ class ncclient extends EventEmitter
         console.log "subsys netconf is ready" if @debugging
 
         @base_1_1 = false
+        @chkframing = atom.config.get 'atom-netconf.server.base11', true
         @ncs = ncstream
 
         @rawbuf = ""
@@ -269,7 +269,6 @@ class ncclient extends EventEmitter
             @streamParser(callback)
 
           writev: (chunks, callback) =>
-            console.log "writev()"
             for chunk in chunks
               @rawbuf += chunk.toString('utf-8')
               @bytes += chunk.length
@@ -288,7 +287,8 @@ class ncclient extends EventEmitter
         ncstream.write '<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\n'
         ncstream.write '  <capabilities>\n'
         ncstream.write '    <capability>urn:ietf:params:netconf:base:1.0</capability>\n'
-        ncstream.write '    <capability>urn:ietf:params:netconf:base:1.1</capability>\n'
+        if @chkframing
+          ncstream.write '    <capability>urn:ietf:params:netconf:base:1.1</capability>\n'
         ncstream.write '  </capabilities>\n'
         ncstream.write '</hello>\n'
         ncstream.write ']]>]]>'
@@ -366,7 +366,8 @@ class ncclient extends EventEmitter
       else
         @ncs.write request
         @ncs.write "]]>]]>"
-
+        
+      setTimeout (=>@ssh.end()), 1000
     else
       @emit 'warning', 'netconf disconnect failed', 'already disconnected'
 

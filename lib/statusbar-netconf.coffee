@@ -108,14 +108,13 @@ class Status extends HTMLElement
     console.debug '::show_notifications()' if @debugging
 
     current_pane = atom.workspace.getActivePane()
-    current_editor = atom.workspace.getActiveTextEditor()
 
     if atom.config.get 'atom-netconf.behavior.resultUntitled'
       filename=""
     else
       filename="notifications.xml"
 
-    p = atom.workspace.open("notifications.xml", {split:atom.config.get 'atom-netconf.behavior.splitPane', activatePane:false})
+    p = atom.workspace.open("notifications.xml", {split:atom.config.get 'atom-netconf.behavior.splitPane'})
     Promise.resolve(p).then (editor) =>
       editor.shouldPromptToSave = ({windowCloseRequested}={}) -> false
       editor.setGrammar atom.grammars.grammarForScopeName 'text.xml'
@@ -130,7 +129,6 @@ class Status extends HTMLElement
       @nlist = []
       if not atom.config.get 'atom-netconf.behavior.resultFocus'
         current_pane.activate()
-        current_pane.activateItem(current_editor)
 
     @info_msgs.classList.add('hidden')
 
@@ -233,11 +231,11 @@ class Status extends HTMLElement
   result: (filename, content, foldLevel=undefined) =>
     console.debug '::result()' if @debugging
     current_pane = atom.workspace.getActivePane()
-    current_editor = atom.workspace.getActiveTextEditor()
 
-    filename="" if atom.config.get 'atom-netconf.behavior.resultUntitled'
+    if atom.config.get 'atom-netconf.behavior.resultUntitled'
+      filename = ""
 
-    p = atom.workspace.open(filename, {split:atom.config.get 'atom-netconf.behavior.splitPane', activatePane:false})
+    p = atom.workspace.open(filename, {split:atom.config.get 'atom-netconf.behavior.splitPane'})
     Promise.resolve(p).then (editor) =>
       editor.shouldPromptToSave = ({windowCloseRequested}={}) -> false
       editor.setGrammar atom.grammars.grammarForScopeName 'text.xml'
@@ -268,7 +266,6 @@ class Status extends HTMLElement
 
       if not atom.config.get 'atom-netconf.behavior.resultFocus'
         current_pane.activate()
-        current_pane.activateItem(current_editor)
 
       @audio_event.play() if atom.config.get 'atom-netconf.behavior.audio'
 
@@ -283,14 +280,13 @@ class Status extends HTMLElement
       @info(lines.length + " change(s) found in candidate datastore.")
 
     current_pane = atom.workspace.getActivePane()
-    current_editor = atom.workspace.getActiveTextEditor()
 
     if atom.config.get 'atom-netconf.behavior.resultUntitled'
       filename = ""
     else
       filename = "responses/merge.xml"
 
-    p = atom.workspace.open(filename, {split:atom.config.get 'atom-netconf.behavior.splitPane', activatePane:false})
+    p = atom.workspace.open(filename, {split:atom.config.get 'atom-netconf.behavior.splitPane'})
     Promise.resolve(p).then (editor) =>
       editor.shouldPromptToSave = ({windowCloseRequested}={}) -> false
       editor.setGrammar atom.grammars.grammarForScopeName 'text.xml'
@@ -330,7 +326,6 @@ class Status extends HTMLElement
 
       if not atom.config.get 'atom-netconf.behavior.resultFocus'
         current_pane.activate()
-        current_pane.activateItem(current_editor)
 
       if atom.config.get 'atom-netconf.behavior.audio'
         setTimeout (=>@audio_event.play()), 1000
