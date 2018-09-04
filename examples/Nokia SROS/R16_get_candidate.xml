@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="r16_get_candidate" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:get-config>
+    <nc:source><nc:candidate/></nc:source>
+    <nc:filter nc:type="subtree">
+      <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf" />
+    </nc:filter>
+  </nc:get-config>
+</nc:rpc>

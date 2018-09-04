@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="r16_modify_port" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target><nc:candidate/></nc:target>
+    <nc:config>
+      <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf">
+        <port nc:operation="replace">
+          <port-id>1/1/10</port-id>
+          <description>atom-demo</description>
+          <ethernet>
+            <mode>access</mode>
+            <encap-type>dot1q</encap-type>
+            <mtu>1518</mtu>
+          </ethernet>
+        </port>
+      </configure>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

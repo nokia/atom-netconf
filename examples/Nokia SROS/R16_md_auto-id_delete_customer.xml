@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc message-id="r16_delete_customer_auto" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <edit-config>
+    <target><candidate/></target>
+    <config>
+      <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf">
+        <service>
+          <customer operation="delete">
+            <customer-name>roadrunner</customer-name>
+          </customer>
+        </service>
+      </configure>
+    </config>
+  </edit-config>
+</rpc>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="r16_md_auto-id_cfg" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target><nc:candidate/></nc:target>
+    <nc:config>
+      <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf">
+        <service>
+          <md-auto-id nc:operation="replace">
+            <service-id-range>
+              <start>999900</start>
+              <end>999999</end>
+            </service-id-range>
+            <customer-id-range>
+              <start>950</start>
+              <end>999</end>
+            </customer-id-range>
+          </md-auto-id>
+        </service>
+      </configure>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

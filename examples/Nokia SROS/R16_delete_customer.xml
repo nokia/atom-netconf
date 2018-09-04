@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="r16_delete_customer" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target><nc:candidate/></nc:target>
+    <nc:config>
+      <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf">
+        <service>
+          <customer nc:operation="delete">
+            <customer-name>acme</customer-name>
+          </customer>
+        </service>
+      </configure>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>
