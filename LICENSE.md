@@ -1,5 +1,5 @@
 ## Netconf for ATOM
-Copyright (c) 2016 Nokia
+Copyright (c) 2016-2018 Nokia
 
 ### The MIT License (MIT)
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,4 +28,4 @@ OSS/NMS integration support for SR OS Netconf/YANG can be purchased at NOKIA.
 For any interest according the NOKIA professional services portfolio, please
 contact your local NOKIA sales team.
 
-**Copyright (c) 2016 NOKIA**
+**Copyright (c) 2016-2018 NOKIA**

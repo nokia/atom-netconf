@@ -23,6 +23,12 @@ class NetconfToolbar extends HTMLElement
     atom.config.observe 'atom-netconf.debug.netconf', (value) => this.debugging = value
     console.debug '::initialize()' if @debugging
 
+    # --- read server settings  -----------------------------------------------
+    pkgpath = atom.packages.resolvePackagePath('atom-netconf')
+    filename = require('path').join(pkgpath, 'servers.yaml')
+    settings = require('fs').readFileSync(filename).toString('utf-8')
+    @servers = require('js-yaml').load(settings)
+
     # --- user-interface icons ------------------------------------------------
     @icon_idle = document.createElement('span')
     @icon_idle.classList.add('icon', 'icon-terminal', 'active')
@@ -36,6 +42,17 @@ class NetconfToolbar extends HTMLElement
     @link_netconf_rpc.classList.add('wide')
     @link_netconf_rpc.textContent = "netconf"
     @link_netconf_rpc.addEventListener('click', @do_rpc_call.bind(this))
+
+    @select_server = document.createElement('select')
+    @select_server.setAttribute('size', '1')
+
+    for server of @servers
+      console.log server
+      textNode = document.createTextNode(server)
+      option = document.createElement('option')
+      option.setAttribute("value", server)
+      option.appendChild(textNode)
+      @select_server.appendChild(option)
 
     @icons = document.createElement('span')
     @icons.classList.add('hidden')
@@ -63,6 +80,8 @@ class NetconfToolbar extends HTMLElement
     @appendChild @icon_idle
     @appendChild @icon_connected
     @appendChild @link_netconf_rpc
+    if Object.keys(@servers).length > 1
+      @appendChild @select_server
     @appendChild @icons
     @icons.appendChild @icon_pkg_settings
     @icons.appendChild @icon_examples
@@ -73,7 +92,9 @@ class NetconfToolbar extends HTMLElement
     @statusBarItem = @statusBar.addLeftTile(priority: 100, item: this)
 
     @addEventListener 'mouseover', =>@icons.classList.remove('hidden')
+    @addEventListener 'mouseover', =>@select_server.classList.remove('hidden')
     @addEventListener 'mouseout', =>@icons.classList.add('hidden')
+    @addEventListener 'mouseout', =>@select_server.classList.add('hidden')
 
 
   register: (object) =>
@@ -98,10 +119,12 @@ class NetconfToolbar extends HTMLElement
       @client.on 'end', =>
         @icon_idle.classList.remove('hidden')
         @icon_connected.classList.add('hidden')
+        @select_server.removeAttribute('disabled');
 
       @client.on 'connected', callback = (hello) =>
         @icon_idle.classList.add('hidden')
         @icon_connected.classList.remove('hidden')
+        @select_server.setAttribute('disabled', '');
 
   destroy: =>
     console.debug '::destroy()' if @debugging
@@ -120,12 +143,18 @@ class NetconfToolbar extends HTMLElement
     if @client?.isConnected()
       @status.warning('Already connected!')
     else
-      @icon_idle.classList.remove('hidden')
-      host = atom.config.get 'atom-netconf.server.host'
-      port = atom.config.get 'atom-netconf.server.port'
-      username = atom.config.get 'atom-netconf.server.username'
-      password = atom.config.get 'atom-netconf.server.password'
-      keysfile = atom.config.get 'atom-netconf.server.keysfile'
+      if @select_server.value == "default"
+        host = atom.config.get 'atom-netconf.server.host'
+        port = atom.config.get 'atom-netconf.server.port'
+        username = atom.config.get 'atom-netconf.server.username'
+        password = atom.config.get 'atom-netconf.server.password'
+        keysfile = atom.config.get 'atom-netconf.server.keysfile'
+      else
+        host = @servers[@select_server.value].host
+        port = @servers[@select_server.value].port
+        username = @servers[@select_server.value].username
+        password = @servers[@select_server.value].password
+        keysfile = @servers[@select_server.value].keyfile
 
       if password != ""
         # if password is provided, use password auth
@@ -145,6 +174,7 @@ class NetconfToolbar extends HTMLElement
         @client.close()
         @icon_idle.classList.remove('hidden')
         @icon_connected.classList.add('hidden')
+        @select_server.removeAttribute('disabled');
     else
       @status.warning('Already disconnected!')
 
