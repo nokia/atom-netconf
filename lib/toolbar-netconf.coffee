@@ -15,6 +15,8 @@ Status = require './statusbar-netconf'
 xmltools = require './xmltools'
 
 path = require 'path'
+fs = require 'fs'
+os = require 'os'
 
 class NetconfToolbar extends HTMLElement
 
@@ -24,9 +26,17 @@ class NetconfToolbar extends HTMLElement
     console.debug '::initialize()' if @debugging
 
     # --- read server settings  -----------------------------------------------
-    pkgpath = atom.packages.resolvePackagePath('atom-netconf')
-    filename = require('path').join(pkgpath, 'servers.yaml')
-    settings = require('fs').readFileSync(filename).toString('utf-8')
+    @pkgpath = atom.packages.resolvePackagePath('atom-netconf')
+    @wspath = path.join(os.homedir(), atom.config.get('atom-netconf.environment.workspace'))
+
+    if not fs.existsSync(@wspath)
+      fs.mkdirSync @wspath
+      fs.mkdirSync path.join(@wspath, 'library')
+      fs.copyFileSync path.join(@pkgpath, 'servers.yaml'), path.join(@wspath, 'servers.yaml')
+      fs.copyFileSync path.join(@pkgpath, 'servers.example.yaml'), path.join(@wspath, 'servers.example.yaml')
+
+    filename = path.join(@wspath, 'servers.yaml')
+    settings = fs.readFileSync(filename).toString('utf-8')
     @servers = require('js-yaml').load(settings)
 
     # --- user-interface icons ------------------------------------------------
@@ -220,8 +230,8 @@ class NetconfToolbar extends HTMLElement
 
   do_examples: =>
     console.debug "::do_examples()" if @debugging
-    ncpath = atom.packages.resolvePackagePath('atom-netconf')
-    atom.project.addPath path.join(ncpath, 'examples')
+    atom.project.addPath path.join(@pkgpath, 'examples')
+    atom.project.addPath @wspath
     @status.done()
 
   do_mute: =>

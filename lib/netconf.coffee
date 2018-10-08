@@ -190,6 +190,16 @@ module.exports =
           type : 'boolean'
           default : false
 
+    environment:
+      title: 'Environment'
+      type: 'object'
+      order: 5
+      properties:
+        workspace:
+          title:   'Private Workspace'
+          type:    'string'
+          default: 'workspace_atom_netconf'
+
   activate: (state) ->
     # console.debug 'netconf::activate()'
     @subscriptions = new CompositeDisposable

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="openconfig09" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target>
+      <nc:candidate/>
+    </nc:target>
+    <nc:config>
+      <interfaces xmlns="http://openconfig.net/yang/interfaces" nc:operation="remove"/>
+      <lacp xmlns="http://openconfig.net/yang/lacp" nc:operation="remove"/>
+      <lldp xmlns="http://openconfig.net/yang/lldp" nc:operation="remove"/>
+      <network-instances xmlns="http://openconfig.net/yang/network-instance" nc:operation="remove"/>
+      <routing-policy xmlns="http://openconfig.net/yang/routing-policy" nc:operation="remove"/>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="openconfig06" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target>
+      <nc:candidate/>
+    </nc:target>
+    <nc:config>
+      <network-instances xmlns="http://openconfig.net/yang/network-instance">
+        <network-instance>
+          <name>Base</name>
+          <protocols>
+            <protocol>
+              <identifier>BGP</identifier>
+              <name>0</name>
+              <bgp>
+                <peer-groups operation="merge">
+                  <peer-group>
+                    <peer-group-name>peering</peer-group-name>
+                    <config>
+                      <peer-group-name>peering</peer-group-name>
+                      <peer-as>65002</peer-as>
+                      <local-as>65001</local-as>
+                      <peer-type>EXTERNAL</peer-type>
+                    </config>
+                  </peer-group>
+                </peer-groups>
+              </bgp>
+            </protocol>
+          </protocols>
+        </network-instance>
+      </network-instances>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

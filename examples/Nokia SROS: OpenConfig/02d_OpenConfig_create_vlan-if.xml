@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="openconfig02d" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target><nc:candidate/></nc:target>
+    <nc:config>
+      <interfaces xmlns="http://openconfig.net/yang/interfaces" nc:operation="merge">
+        <interface>
+          <name>1/2/c1/1</name>
+          <config>
+            <name>1/2/c1/1</name>
+            <type>ethernetCsmacd</type>
+            <enabled>true</enabled>
+          </config>
+            <subinterfaces>
+              <subinterface>
+                <index>10</index>
+                <config>
+                  <index>10</index>
+                  <enabled>true</enabled>
+                </config>
+                  <ipv4>
+                    <addresses>
+                      <address>
+                        <ip>20.20.20.1</ip>
+                        <config>
+                          <ip>20.20.20.1</ip>
+                          <prefix-length>31</prefix-length>
+                        </config>
+                      </address>
+                    </addresses>
+                  </ipv4>
+                  <vlan>
+                    <config>
+                      <vlan-id>10</vlan-id>
+                    </config>
+                  </vlan>
+              </subinterface>
+            </subinterfaces>
+        </interface>
+      </interfaces>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

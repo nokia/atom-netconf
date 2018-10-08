@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="openconfig04" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target>
+      <nc:candidate/>
+    </nc:target>
+    <nc:config>
+      <network-instances xmlns="http://openconfig.net/yang/network-instance">
+        <network-instance>
+          <name>Base</name>
+          <interfaces nc:operation="merge">
+            <interface>
+              <id>1/1/c1/1</id>
+              <config>
+                <id>1/1/c1/1</id>
+                <interface>1/1/c1/1</interface>
+                <subinterface>0</subinterface>
+                <associated-address-families>IPV4</associated-address-families>
+              </config>
+            </interface>
+            <interface>
+              <id>1/2/c1/1.10</id>
+              <config>
+                <id>1/2/c1/1.10</id>
+                <interface>1/2/c1/1</interface>
+                <subinterface>10</subinterface>
+                <associated-address-families>IPV4</associated-address-families>
+              </config>
+            </interface>
+            <interface>
+              <id>loopback</id>
+              <config>
+                <id>loopback</id>
+                <interface>loopback</interface>
+                <subinterface>0</subinterface>
+                <associated-address-families>IPV4</associated-address-families>
+              </config>
+            </interface>
+            <interface>
+              <id>loopback.1</id>
+              <config>
+                <id>loopback.1</id>
+                <interface>loopback</interface>
+                <subinterface>1</subinterface>
+                <associated-address-families>IPV4</associated-address-families>
+              </config>
+            </interface>
+            <interface>
+              <id>system</id>
+              <config>
+                <id>system</id>
+                <interface>system</interface>
+                <subinterface>0</subinterface>
+                <associated-address-families>IPV4</associated-address-families>
+                <associated-address-families>IPV6</associated-address-families>
+              </config>
+            </interface>
+          </interfaces>
+        </network-instance>
+      </network-instances>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

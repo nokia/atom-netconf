@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="openconfig02c" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target><nc:candidate/></nc:target>
+    <nc:config>
+      <interfaces xmlns="http://openconfig.net/yang/interfaces" nc:operation="merge">
+        <interface>
+          <name>1/1/c1/1</name>
+          <config>
+            <name>1/1/c1/1</name>
+            <type>ethernetCsmacd</type>
+            <enabled>true</enabled>
+          </config>
+            <subinterfaces>
+              <subinterface>
+                <index>0</index>
+                <config>
+                  <enabled>true</enabled>
+                </config>
+                  <ipv4>
+                    <addresses>
+                      <address>
+                        <ip>10.10.10.1</ip>
+                        <config>
+                          <ip>10.10.10.1</ip>
+                          <prefix-length>24</prefix-length>
+                        </config>
+                      </address>
+                    </addresses>
+                  </ipv4>
+              </subinterface>
+            </subinterfaces>
+        </interface>
+      </interfaces>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="openconfig02a" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target><nc:candidate/></nc:target>
+    <nc:config>
+      <interfaces xmlns="http://openconfig.net/yang/interfaces" nc:operation="merge">
+        <interface>
+            <name>system</name>
+            <config>
+                <name>system</name>
+                <type>softwareLoopback</type>
+                <enabled>true</enabled>
+            </config>
+            <subinterfaces>
+                <subinterface>
+                    <index>0</index>
+                    <ipv4>
+                        <addresses>
+                            <address>
+                                <ip>88.0.0.1</ip>
+                                <config>
+                                    <ip>88.0.0.1</ip>
+                                    <prefix-length>32</prefix-length>
+                                </config>
+                            </address>
+                        </addresses>
+                    </ipv4>
+                    <ipv6>
+                        <addresses>
+                            <address>
+                                <ip>cafe:88::1</ip>
+                                <config>
+                                    <ip>cafe:88::1</ip>
+                                    <prefix-length>128</prefix-length>
+                                </config>
+                            </address>
+                        </addresses>
+                    </ipv6>
+                </subinterface>
+            </subinterfaces>
+        </interface>
+      </interfaces>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

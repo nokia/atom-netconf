@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="openconfig07" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target>
+      <nc:candidate/>
+    </nc:target>
+    <nc:config>
+      <network-instances xmlns="http://openconfig.net/yang/network-instance">
+        <network-instance>
+          <name>Base</name>
+          <protocols>
+            <protocol>
+              <identifier>BGP</identifier>
+              <name>0</name>
+              <bgp>
+                <neighbors>
+                  <neighbor>
+                    <neighbor-address>10.10.10.2</neighbor-address>
+                    <config>
+                      <peer-group>peering</peer-group>
+                      <neighbor-address>10.10.10.2</neighbor-address>
+                      <enabled>true</enabled>
+                    </config>
+                  </neighbor>
+                </neighbors>
+              </bgp>
+            </protocol>
+          </protocols>
+        </network-instance>
+      </network-instances>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>
