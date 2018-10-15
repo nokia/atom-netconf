@@ -100,12 +100,11 @@ class ncclient extends EventEmitter
           if xmldom.getElementsByTagName('rpc-error').length >= 1
             @emit 'rpc-error', msgid, xmldom
           else
-            for node in xmldom.firstElementChild.childNodes
-              if node.localName=="ok" && node.nodeType==1
-                @emit 'rpc-ok', msgid
-                break
-
-            if @formating[msgid] == 'prettify'
+            nodes = xmldom.firstElementChild.childNodes
+            if nodes.length==1 and nodes[0].localName=="ok" and nodes[0].nodeType==1
+              # Just emit OK, but skip the callback
+              @emit 'rpc-ok', msgid
+            else if @formating[msgid] == 'prettify'
               @callbacks[msgid] msgid, xmltools.prettify(xmldom)
             else if @formating[msgid] == 'minify'
               @callbacks[msgid] msgid, xmltools.minify(xmldom)
@@ -366,7 +365,7 @@ class ncclient extends EventEmitter
       else
         @ncs.write request
         @ncs.write "]]>]]>"
-        
+
       setTimeout (=>@ssh.end()), 1000
     else
       @emit 'warning', 'netconf disconnect failed', 'already disconnected'

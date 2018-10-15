@@ -49,3 +49,9 @@ Enhanced Features (beta):
 ### 2.0 - Updates (2018 September 27th)
 * added support for multiple NETCONF servers
 
+### 2.2 - Updates (2018 October 15th)
+* updated examples for OpenConfig to work with Nokia SR OS
+* hardend behavior for multiple NETCONF servers
+* support for shared settings, defaults to ~/workspace_atom_netconf
+* please check servers.yaml file for servers configuration
+* suppress result-windows, if the response is just <ok>

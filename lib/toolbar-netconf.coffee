@@ -35,9 +35,13 @@ class NetconfToolbar extends HTMLElement
       fs.copyFileSync path.join(@pkgpath, 'servers.yaml'), path.join(@wspath, 'servers.yaml')
       fs.copyFileSync path.join(@pkgpath, 'servers.example.yaml'), path.join(@wspath, 'servers.example.yaml')
 
-    filename = path.join(@wspath, 'servers.yaml')
-    settings = fs.readFileSync(filename).toString('utf-8')
-    @servers = require('js-yaml').load(settings)
+    try
+      filename = path.join(@wspath, 'servers.yaml')
+      settings = fs.readFileSync(filename).toString('utf-8')
+      @servers = require('js-yaml').load(settings)
+    catch e
+      console.debug 'servers.yaml not found! Using single NETCONF server as per atom-netconf settings.' if @debugging
+      @servers = {}
 
     # --- user-interface icons ------------------------------------------------
     @icon_idle = document.createElement('span')
@@ -56,13 +60,15 @@ class NetconfToolbar extends HTMLElement
     @select_server = document.createElement('select')
     @select_server.setAttribute('size', '1')
 
+    addServerSelect = false
     for server of @servers
-      console.log server
       textNode = document.createTextNode(server)
       option = document.createElement('option')
       option.setAttribute("value", server)
       option.appendChild(textNode)
       @select_server.appendChild(option)
+      if server!="default"
+        addServerSelect = true
 
     @icons = document.createElement('span')
     @icons.classList.add('hidden')
@@ -90,7 +96,7 @@ class NetconfToolbar extends HTMLElement
     @appendChild @icon_idle
     @appendChild @icon_connected
     @appendChild @link_netconf_rpc
-    if Object.keys(@servers).length > 1
+    if addServerSelect
       @appendChild @select_server
     @appendChild @icons
     @icons.appendChild @icon_pkg_settings
@@ -199,7 +205,6 @@ class NetconfToolbar extends HTMLElement
         timeout = atom.config.get 'atom-netconf.server.timeout'
         @client.rpc xmlrpc, 'default', timeout, (msgid, msg) =>
           @status.result "responses/#{msgid}.xml", msg
-          # todo: improvement to suppress window in case of <ok> results
 
       else if filetype in ['text.xml.xsl']
         xmlreq = """<?xml version="1.0" encoding="UTF-8"?>

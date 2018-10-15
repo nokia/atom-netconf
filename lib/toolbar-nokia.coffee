@@ -150,6 +150,7 @@ class NokiaToolbar extends HTMLElement
 
     timeout = atom.config.get 'atom-netconf.server.timeout'
     @client.rpc xmlreq, 'sros', timeout, (msgid, msg) =>
+      # ncclient will not issue the callback as the result is <ok>
       console.log "successfully validated" if @debugging
 
   do_edit: =>
@@ -183,6 +184,7 @@ class NokiaToolbar extends HTMLElement
 
     timeout = atom.config.get 'atom-netconf.server.timeout'
     @client.rpc xmlreq, 'sros', timeout, (msgid, msg) =>
+      # ncclient will not issue the callback as the result is <ok>
       console.log "edit-config was successful" if @debugging
 
   # --- update user-interface tasks -------------------------------------------
