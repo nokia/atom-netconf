@@ -1,7 +1,7 @@
 {
   "name": "atom-netconf",
   "main": "./lib/netconf",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Netconf implementation for the Atom Text Editor",
   "license": "MIT",
   "author": {
