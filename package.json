@@ -84,7 +84,7 @@
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nokia/atom-netconf.git"
+    "url": "https://github.com/nokia/atom-netconf.git"
   },
-  "version": "2.4.0"
+  "version": "2.2.5"
 }
