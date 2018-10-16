@@ -1,12 +1,53 @@
 {
-  "name": "atom-netconf",
-  "main": "./lib/netconf",
-  "version": "2.2.0",
-  "description": "Netconf implementation for the Atom Text Editor",
-  "license": "MIT",
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+        "spec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/apm-install-dir-118915-76389-1k3bt1w.lunjh2rzfr"
+    ]
+  ],
+  "_from": "../d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+  "_id": "atom-netconf@2.2.0",
+  "_inCache": true,
+  "_location": "/atom-netconf",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+    "spec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+  "_shasum": "1bc9969d987f6ee72ba183d1b7cf8558fbaf456c",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
+  "_where": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/apm-install-dir-118915-76389-1k3bt1w.lunjh2rzfr",
   "author": {
     "name": "Sven Wisotzky",
     "email": "not public"
+  },
+  "bugs": {
+    "url": "https://github.com/nokia/atom-netconf/issues"
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
   },
   "contributors": [
     {
@@ -14,6 +55,18 @@
       "email": "not public"
     }
   ],
+  "dependencies": {
+    "diff": ">=2.2.2",
+    "js-yaml": ">=3.12.0",
+    "ssh2": ">=0.5.5",
+    "jinja-js": ">=0.1.8"
+  },
+  "description": "Netconf implementation for the Atom Text Editor",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.6.0"
+  },
+  "homepage": "https://github.com/nokia/atom-netconf#readme",
   "keywords": [
     "netconf",
     "yang",
@@ -23,23 +76,15 @@
     "SR OS",
     "Nokia"
   ],
-  "dependencies": {
-    "diff": ">=2.2.2",
-    "ssh2": ">=0.5.5",
-    "js-yaml": ">=3.12.0"
-  },
-  "consumedServices": {
-    "status-bar": {
-      "versions": {
-        "^1.0.0": "consumeStatusBar"
-      }
-    }
-  },
+  "license": "MIT",
+  "main": "./lib/netconf",
+  "name": "atom-netconf",
+  "optionalDependencies": {},
+  "readme": "## Netconf for ATOM\n\nThis package provides a simplistic graphical user-interface for learning and\ntesting the NETCONF protocol. This software contains a NETCONF client, which\nruns against a NETCONF server, such as NOKIA 7750 Service Routers.\n\nIn the current implementation this NETCONF client is using NETCONF over\nSSHv2 with either password or key-based authentication as described in\n[RFC 6242](https://tools.ietf.org/html/rfc6242).\n\nBoth base:1.0 *end-of-message framing* and base:1.1 *chunked-framing* are\nboth supported. Authentication supports username with password or\ncertificate.\n\n![Netconf Package](https://raw.githubusercontent.com/nokia/atom-netconf/master/screenshot.png)\n\nTo use this package, it is required to specify connection details in the\npackage settings. All features are accessible from toolbars which are added\nto the ATOM statusbar. A limited feature-set is accessible from the ATOM\nmenubar and context menus.\n\nIf you need to deal with multiple NETCONF servers, connection details can be\nspecified in a YAML file called server.yaml. This will add a selection list\nof servers to the toolbar.\n\n**Copyright (c) 2016-2018**  \n![NOKIA](https://raw.githubusercontent.com/nokia/atom-netconf/master/logo-tiny.png)\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nokia/atom-netconf.git"
+    "url": "git+https://github.com/nokia/atom-netconf.git"
   },
-  "engines": {
-    "atom": ">=1.6.0"
-  }
+  "version": "2.2.0"
 }

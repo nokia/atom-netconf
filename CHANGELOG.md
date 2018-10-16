@@ -55,3 +55,6 @@ Enhanced Features (beta):
 * support for shared settings, defaults to ~/workspace_atom_netconf
 * please check servers.yaml file for servers configuration
 * suppress result-windows, if the response is just <ok>
+
+### 2.3 - Updates (2018 October 17th)
+* introducing environment / templating

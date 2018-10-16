@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nc:rpc message-id="r16_md_auto-id_cfg" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+<nc:rpc message-id="setup_md_autoid_config" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
   <nc:edit-config>
     <nc:target><nc:candidate/></nc:target>
     <nc:config>

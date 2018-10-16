@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nc:rpc message-id="vpls_from_j2_tempate" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <nc:edit-config>
+    <nc:target><nc:candidate/></nc:target>
+    <nc:config>
+      <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf">
+        <service operation="replace">
+            <customer>
+                <customer-name>demo</customer-name>
+                <description>NETCONF demo for Nokia SR OS using auto-id</description>
+                <contact>nokia team</contact>
+            </customer>
+            <md-auto-id>
+                <service-id-range>
+                    <start>{{ auto.start }}</start>
+                    <end>{{ auto.end }}</end>
+                </service-id-range>
+                <customer-id-range>
+                    <start>{{ auto.start }}</start>
+                    <end>{{ auto.end }}</end>
+                </customer-id-range>
+            </md-auto-id>
+{% for svc in vpls %}
+          <vpls>
+            <service-name>{{ svc.name }}</service-name>
+            <customer>demo</customer>
+            <admin-state>enable</admin-state>
+{% for sap in svc.saps %}
+            <sap>
+              <sap-id>{{ sap }}</sap-id>
+              <admin-state>enable</admin-state>
+            </sap>
+{% endfor %}
+          </vpls>
+{% endfor %}
+        </service>
+      </configure>
+    </nc:config>
+  </nc:edit-config>
+</nc:rpc>

@@ -1,0 +1,43 @@
+## Using the environment with Netconf for ATOM
+
+By default the package will create a directory called workspace_atom_netconf
+in the users home directory. The structure is the following:
+
+~/workspace_atom_netconf  <-- folder for own settings
+    /host_vars:           <-- directory containing node-specific environment
+      default.yaml        <-- empty yaml-file to add node settings
+    /library              <-- repository to be used for your own NETCONF experiments
+    environment.yaml      <-- empty yaml-file to add global settings
+    servers.example.yaml  <-- example to setup connections for multiple NETCONF servers
+    servers.yaml          <-- actual server connection settings being used
+
+The atom-netconf workspace is used to store settings and own netconf examples.
+The name of the folder is defined by the package settings. All content is
+preserved over reboots, so you don't need to start building your environment
+again if the package is updated.
+
+To make netconf examples more adjustable, the solution allows defining variables
+in YAML to be used together with Jinja2 templates. So if you actually send an
+XML request to the server, while the file is actually named *.j2 it will be
+processed by a Jinja2 processor before sending.
+
+The variables are defined at 3 levels:
+First you can define settings in the environment.yaml file. This contains the global
+settings, which are available to all Jinja2 tempates. To access this data, everything
+is put into a dict-entry with the key "env". For example if the YAML file contains the
+setting "enable: true", you can use this in your Jinja2 template by saying "{{env.enable}}".
+
+On the second level, you can define settings in the host_vars directory. Each node
+may have its own environments file, or multiple nodes might share the same YAML file.
+The reference is made in the servers.yaml file. To access the data from Jinja2, you
+would need to use "host." as prefix to access the data.
+
+The 3rd level of variables can be defined in a file called "vars.yaml" which need to
+be placed in the same directory as the Jinja2 template. These are typically settings
+which are specific to a template or group of templates. The corresponding values are
+directly loaded into the environment, and can be accessed without any prefix.
+
+The value of using templates is, that you can apply changes to a certain environment
+must easier. So for example if you need to use different physical ports to apply a
+NETCONF request to different NETCONF servers, you could easily put the port of
+choice in the host environment.

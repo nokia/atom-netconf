@@ -1,0 +1,7 @@
+vpls:
+  - { name: alpha, id: 10, saps: [1/1/c3/1, 1/1/c4/1] }
+  - { name: bravo, id: 20, saps: [] }
+  - { name: charlie, id: 30, saps: ["1/1/c5/1:10", "1/1/c5/1:20", "1/1/c5/1:30"] }
+auto:
+  start: 2000000000
+  end: 2147483647

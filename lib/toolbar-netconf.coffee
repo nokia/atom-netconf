@@ -17,6 +17,8 @@ xmltools = require './xmltools'
 path = require 'path'
 fs = require 'fs'
 os = require 'os'
+jinja = require 'jinja-js'
+yaml = require 'js-yaml'
 
 class NetconfToolbar extends HTMLElement
 
@@ -32,13 +34,17 @@ class NetconfToolbar extends HTMLElement
     if not fs.existsSync(@wspath)
       fs.mkdirSync @wspath
       fs.mkdirSync path.join(@wspath, 'library')
+      fs.mkdirSync path.join(@wspath, 'host_vars')
       fs.copyFileSync path.join(@pkgpath, 'servers.yaml'), path.join(@wspath, 'servers.yaml')
       fs.copyFileSync path.join(@pkgpath, 'servers.example.yaml'), path.join(@wspath, 'servers.example.yaml')
+
+      fs.closeSync fs.openSync(path.join(@wspath, 'environment.yaml'), 'w')
+      fs.closeSync fs.openSync(path.join(@wspath, 'host_vars', 'default.yaml'), 'w')
 
     try
       filename = path.join(@wspath, 'servers.yaml')
       settings = fs.readFileSync(filename).toString('utf-8')
-      @servers = require('js-yaml').load(settings)
+      @servers = yaml.load(settings)
     catch e
       console.debug 'servers.yaml not found! Using single NETCONF server as per atom-netconf settings.' if @debugging
       @servers = {}
@@ -122,7 +128,8 @@ class NetconfToolbar extends HTMLElement
 
       # Event Listeners for @client object
       @client.on 'error', (msg) =>
-        @client.close()
+        if @client?.isConnected()
+          @client.close()
 
         @icon_idle.classList.add('error')
         setTimeout (=> @icon_idle.classList.remove('error')), 5000
@@ -186,7 +193,7 @@ class NetconfToolbar extends HTMLElement
   do_disconnect: =>
     console.debug "::do_disconnect()" if @debugging
     if @client?.isConnected()
-      @client.disconnect (msg) =>
+      @client.disconnect(msg) =>
         @client.close()
         @icon_idle.classList.remove('hidden')
         @icon_connected.classList.add('hidden')
@@ -196,35 +203,53 @@ class NetconfToolbar extends HTMLElement
 
   do_rpc_call: =>
     console.debug "::do_rpc_call()" if @debugging
+
     editor = atom.workspace.getActiveTextEditor()
     if (editor instanceof TextEditor)
       filetype = editor.getGrammar().scopeName
 
       if filetype in ['text.plain.null-grammar', 'text.plain', 'text.xml']
-        xmlrpc = editor.getText()
-        timeout = atom.config.get 'atom-netconf.server.timeout'
-        @client.rpc xmlrpc, 'default', timeout, (msgid, msg) =>
-          @status.result "responses/#{msgid}.xml", msg
+        if (path.extname(editor.getPath()) == ".j2")
+          try
+            varfile = path.join(path.dirname(editor.getPath()), 'vars.yaml')
+            buf = fs.readFileSync(varfile).toString('utf-8')
+            vars = yaml.load(buf)
+          catch err
+            @status.warning('Error loading vars file!', varfile) if @debugging
+            vars = {}
 
-      else if filetype in ['text.xml.xsl']
-        xmlreq = """<?xml version="1.0" encoding="UTF-8"?>
-          <rpc message-id="get-config running" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-            <get-config>
-              <source><running/></source>
-            </get-config>
-          </rpc>"""
-        timeout = atom.config.get 'atom-netconf.server.timeout'
-        @client.rpc xmlreq, 'default', timeout, (msgid, msg) =>
-          xmldom = (new DOMParser).parseFromString msg, "text/xml"
-          result = xmltools.format(editor.getText(), xmldom)
-          # todo: potential improvement ncclient already has converted xml text>dom
-          if result != undefined
-            @status.result "responses/xslt-result.xml", result, 0
+          try
+            envfile = path.join(@wspath, 'environment.yaml')
+            buf = fs.readFileSync(envfile).toString('utf-8')
+            vars['env'] = yaml.load(buf)
+          catch err
+            @status.warning('Error loading environment file!', envfile) if @debugging
 
+          if @servers[@select_server.value]?.hostvars
+            try
+              hostfile = path.join(@wspath, @servers[@select_server.value].hostvars)
+              buf = fs.readFileSync(hostfile).toString('utf-8')
+              vars['host'] = yaml.load(buf)
+            catch err
+              @status.warning('Error loading host-vars file!', hostfile)
+
+          try
+            template = editor.getText()
+            xmlrpc = jinja.render(template, vars).toString('utf-8')
+          catch err
+            @status.warning('Error executing Jinja2 template!')
+            xmlrpc = undefined
+        else
+          xmlrpc = editor.getText()
+
+        if xmlrpc!=undefined
+          timeout = atom.config.get 'atom-netconf.server.timeout'
+          @client.rpc xmlrpc, 'default', timeout, (msgid, msg) =>
+            @status.result "responses/#{msgid}.xml", msg
       else
-        @status.warning('Can only process XML, XSLT or plain text')
+        @status.warning('Can only process XML or plain text')
     else
-      @status.warning('Need to open XML/XSLT file first')
+      @status.warning('Need to open XML file first')
 
   do_settings: =>
     console.debug "::do_settings()" if @debugging

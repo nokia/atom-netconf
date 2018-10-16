@@ -1,14 +1,19 @@
 ---
 default:
+  hostvars: host_vars/default.yaml
+
 localhost:
   host: "127.0.0.1"
   port: 830
   username: admin
   password: admin
+  hostvars: host_vars/default.yaml
   keysfile:
+
 PE1:
   host: "192.168.0.10"
   port: 830
   username: admin
   password: admin
+  hostvars: host_vars/default.yaml
   keysfile:

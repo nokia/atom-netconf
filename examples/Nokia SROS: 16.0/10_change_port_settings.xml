@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nc:rpc message-id="r16_modify_port" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+<nc:rpc message-id="10_modify_port" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
   <nc:edit-config>
     <nc:target><nc:candidate/></nc:target>
     <nc:config>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rpc message-id="r16_get_running" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+<rpc message-id="01_get_running" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
   <get-config>
     <source><running/></source>
     <filter type="subtree">
