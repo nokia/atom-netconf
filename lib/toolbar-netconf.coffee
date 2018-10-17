@@ -193,7 +193,7 @@ class NetconfToolbar extends HTMLElement
   do_disconnect: =>
     console.debug "::do_disconnect()" if @debugging
     if @client?.isConnected()
-      @client.disconnect(msg) =>
+      @client.disconnect (msg) =>
         @client.close()
         @icon_idle.classList.remove('hidden')
         @icon_connected.classList.add('hidden')
