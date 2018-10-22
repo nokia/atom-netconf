@@ -58,3 +58,6 @@ Enhanced Features (beta):
 
 ### 2.3 - Updates (2018 October 17th)
 * introducing environment / templating
+
+### 3.0 - Updates (2018 October 22nd)
+* basic support for MacBookPro TouchBar

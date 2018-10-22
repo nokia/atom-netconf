@@ -10,6 +10,9 @@
 ###
 
 {CompositeDisposable, TextEditor} = require 'atom'
+{TouchBar, nativeImage} = require'remote'
+{TouchBarButton, TouchBarColorPicker, TouchBarGroup, TouchBarLabel, TouchBarPopover, TouchBarScrubber, TouchBarSegmentedControl, TouchBarSlider, TouchBarSpacer} = TouchBar
+
 ncclient = require './ncclient'
 Status = require './statusbar-netconf'
 xmltools = require './xmltools'
@@ -118,6 +121,15 @@ class NetconfToolbar extends HTMLElement
     @addEventListener 'mouseout', =>@icons.classList.add('hidden')
     @addEventListener 'mouseout', =>@select_server.classList.add('hidden')
 
+    # --- create MacBookPro touchbar items ------------------------------------
+    logo = nativeImage.createFromPath(path.join(__dirname, '../logo-tiny.png')).resize({ height: 16 })
+    @tbLabel = new TouchBarLabel {label: "atom-netconf"}
+    @tbConnect = new TouchBarButton {label: "connect", click: @do_connect.bind(this), backgroundColor: [-1, 0, 1]}
+    @tbDisconnect = new TouchBarButton {label: "disconnect", click: @do_disconnect.bind(this), backgroundColor: [-1, 0, 1]}
+    @tbRPC = new TouchBarButton {label: "RPC", click: @do_rpc_call.bind(this), backgroundColor: [-1, 0, 1]}
+    @tbLogo = new TouchBarButton {icon: logo, iconPosition: 'overlay', backgroundColor: "#000000"}
+    @updateTB()
+
 
   register: (object) =>
     console.debug '::register()' if @debugging
@@ -143,11 +155,13 @@ class NetconfToolbar extends HTMLElement
         @icon_idle.classList.remove('hidden')
         @icon_connected.classList.add('hidden')
         @select_server.removeAttribute('disabled');
+        @updateTB()
 
       @client.on 'connected', callback = (hello) =>
         @icon_idle.classList.add('hidden')
         @icon_connected.classList.remove('hidden')
         @select_server.setAttribute('disabled', '');
+        @updateTB()
 
   destroy: =>
     console.debug '::destroy()' if @debugging
@@ -198,6 +212,7 @@ class NetconfToolbar extends HTMLElement
         @icon_idle.classList.remove('hidden')
         @icon_connected.classList.add('hidden')
         @select_server.removeAttribute('disabled');
+        @updateTB()
     else
       @status.warning('Already disconnected!')
 
@@ -294,6 +309,17 @@ class NetconfToolbar extends HTMLElement
       @link_netconf_rpc.classList.add('active')
     else
       @link_netconf_rpc.classList.remove('active')
+
+  updateTB: =>
+    @touchbar = []
+    @touchbar.push @tbLabel
+    if @client?.isConnected()
+      @touchbar.push @tbDisconnect
+      @touchbar.push @tbRPC
+    else
+      @touchbar.push @tbConnect
+    @touchbar.push @tbLogo
+    atom.getCurrentWindow().setTouchBar(@touchbar)
 
 module.exports = document.registerElement('toolbar-netconf', prototype: NetconfToolbar.prototype, extends: 'div')
 
