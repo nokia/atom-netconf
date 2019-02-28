@@ -66,12 +66,15 @@ class ncclient extends EventEmitter
 
     else if xmldom.firstElementChild.localName == "hello"
       console.log "hello message received" if @debugging
-      @connected = true
       @nokiaSROS = false
+      @nokiaPSS = false
       for capability in xmldom.getElementsByTagName('capability')
         if capability.firstChild.data.startsWith("urn:nokia.com:sros:ns:yang:sr:conf?")
           @nokiaSROS = true
           @emit 'Nokia SROS'
+
+        if capability.firstChild.data.startsWith("http://nokia.com/yang/nokia-security?module=nokia-security")
+          @nokiaPSS = true
 
         if capability.firstChild.data.startsWith("urn:ietf:params:netconf:capability:validate:1")
           @emit 'support:validate'
@@ -81,6 +84,25 @@ class ncclient extends EventEmitter
 
         if capability.firstChild.data == 'urn:ietf:params:netconf:base:1.1'
           @base_1_1 = @chkframing
+
+      @ncs.write '<?xml version="1.0" encoding="UTF-8"?>\n'
+      @ncs.write '<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\n'
+      @ncs.write '  <capabilities>\n'
+      @ncs.write '    <capability>urn:ietf:params:netconf:base:1.0</capability>\n'
+      if @chkframing
+        @ncs.write '    <capability>urn:ietf:params:netconf:base:1.1</capability>\n'
+      if @nokiaPSS
+        for capability in xmldom.getElementsByTagName('capability')
+          if capability.firstChild.data.indexOf("?module=") != -1
+            @ncs.write (new XMLSerializer()).serializeToString(capability)
+
+      @ncs.write '  </capabilities>\n'
+      @ncs.write '</hello>\n'
+      @ncs.write ']]>]]>'
+
+      @connected = true
+
+
 
       mode = atom.config.get 'atom-netconf.behavior.xmlProcessor'
       if mode == 'prettify'
@@ -282,15 +304,6 @@ class ncclient extends EventEmitter
         ncstream.on 'close', =>
           console.log "netconf connection closed" if @debugging
 
-        ncstream.write '<?xml version="1.0" encoding="UTF-8"?>\n'
-        ncstream.write '<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\n'
-        ncstream.write '  <capabilities>\n'
-        ncstream.write '    <capability>urn:ietf:params:netconf:base:1.0</capability>\n'
-        if @chkframing
-          ncstream.write '    <capability>urn:ietf:params:netconf:base:1.1</capability>\n'
-        ncstream.write '  </capabilities>\n'
-        ncstream.write '</hello>\n'
-        ncstream.write ']]>]]>'
 
     {protocol, hostname, port, auth} = url.parse(uri)
     if auth.indexOf(':') != -1
@@ -305,6 +318,7 @@ class ncclient extends EventEmitter
       port:     port
       username: username
       password: password
+      tryKeyboard: true
       algorithms:
         kex: ["ecdh-sha2-nistp256","diffie-hellman-group-exchange-sha256","diffie-hellman-group14-sha1","diffie-hellman-group-exchange-sha1","diffie-hellman-group1-sha1"]
         cipher: ["aes128-ctr","aes192-ctr","aes256-ctr","aes128-gcm","aes256-gcm","aes256-cbc","3des-cbc"]

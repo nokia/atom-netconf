@@ -61,3 +61,6 @@ Enhanced Features (beta):
 
 ### 3.0 - Updates (2018 October 22nd)
 * basic support for MacBookPro TouchBar
+
+### 3.1 - Updates (2019 February 28th)
+* basic support for Nokia 1830 PSS
