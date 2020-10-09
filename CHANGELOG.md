@@ -64,3 +64,8 @@ Enhanced Features (beta):
 
 ### 3.1 - Updates (2019 February 28th)
 * basic support for Nokia 1830 PSS
+
+### 3.1.2 - 2020 October 9th
+* update dependencies to ssh2 version 8.9
+* https://www.npmjs.com/package/ssh2/v/0.8.9
+

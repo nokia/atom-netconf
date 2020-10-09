@@ -58,7 +58,7 @@
   "dependencies": {
     "diff": ">=2.2.2",
     "js-yaml": ">=3.12.0",
-    "ssh2": ">=0.5.5",
+    "ssh2": ">=0.8.9",
     "jinja-js": ">=0.1.8"
   },
   "description": "Netconf implementation for the Atom Text Editor",
@@ -86,5 +86,5 @@
     "type": "git",
     "url": "https://github.com/nokia/atom-netconf.git"
   },
-  "version": "3.1.1"
+  "version": "3.1.2"
 }
