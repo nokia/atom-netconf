@@ -25,3 +25,8 @@ of servers to the toolbar.
 
 **Copyright (c) 2016-2018**  
 ![NOKIA](https://raw.githubusercontent.com/nokia/atom-netconf/master/logo-tiny.png)
+
+
+## License
+
+This project is licensed under the MIT license - see the [LICENSE](https://github.com/nokia/atom-netconf/blob/master/LICENSE).
