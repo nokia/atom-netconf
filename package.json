@@ -58,7 +58,7 @@
   "dependencies": {
     "diff": ">=2.2.2",
     "js-yaml": ">=3.12.0",
-    "ssh2": ">=0.8.9",
+    "ssh2": ">=1.0.0",
     "jinja-js": ">=0.1.8"
   },
   "description": "Netconf implementation for the Atom Text Editor",
