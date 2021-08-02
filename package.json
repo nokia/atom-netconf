@@ -1,40 +1,4 @@
 {
-  "_args": [
-    [
-      {
-        "raw": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-        "scope": null,
-        "escapedName": null,
-        "name": null,
-        "rawSpec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-        "spec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-        "type": "local"
-      },
-      "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/apm-install-dir-118915-76389-1k3bt1w.lunjh2rzfr"
-    ]
-  ],
-  "_from": "../d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-  "_id": "atom-netconf@2.2.0",
-  "_inCache": true,
-  "_location": "/atom-netconf",
-  "_phantomChildren": {},
-  "_requested": {
-    "raw": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-    "scope": null,
-    "escapedName": null,
-    "name": null,
-    "rawSpec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-    "spec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-    "type": "local"
-  },
-  "_requiredBy": [
-    "#USER"
-  ],
-  "_resolved": "file:../d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-  "_shasum": "1bc9969d987f6ee72ba183d1b7cf8558fbaf456c",
-  "_shrinkwrap": null,
-  "_spec": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/d-118915-76389-py10pb.sdvhpbke29/package.tgz",
-  "_where": "/private/var/folders/x_/18gvwq452vl8gyj6y_t5qj780000gn/T/apm-install-dir-118915-76389-1k3bt1w.lunjh2rzfr",
   "author": {
     "name": "Sven Wisotzky",
     "email": "not public"

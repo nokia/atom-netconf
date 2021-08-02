@@ -10,7 +10,7 @@
 ###
 
 {CompositeDisposable, TextEditor} = require 'atom'
-{TouchBar, nativeImage} = require'remote'
+{TouchBar, nativeImage} = require 'remote'
 {TouchBarButton, TouchBarColorPicker, TouchBarGroup, TouchBarLabel, TouchBarPopover, TouchBarScrubber, TouchBarSegmentedControl, TouchBarSlider, TouchBarSpacer} = TouchBar
 
 ncclient = require './ncclient'
