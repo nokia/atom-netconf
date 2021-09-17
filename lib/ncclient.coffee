@@ -61,7 +61,7 @@ class ncclient extends EventEmitter
     console.debug "::msgHandler()" if @debugging
 
     # convert multi-byte unicode back to utf-8 single byte characters
-    unicodeString = msg.replace(/[\u00e0-\u00ef][\u0080-\u00bf][\u0080-\u00bf]/g, (c) ->
+    msg = msg.replace(/[\u00e0-\u00ef][\u0080-\u00bf][\u0080-\u00bf]/g, (c) ->
       # convert 3 byte characters
       cc = (c.charCodeAt(0) & 0x0f) << 12 | (c.charCodeAt(1) & 0x3f) << 6 | c.charCodeAt(2) & 0x3f
       String.fromCharCode cc
@@ -71,7 +71,7 @@ class ncclient extends EventEmitter
       String.fromCharCode cc
     )
 
-    xmldom = (new DOMParser).parseFromString unicodeString, "text/xml"
+    xmldom = (new DOMParser).parseFromString msg, "text/xml"
     if xmldom==null
       @emit 'warning', 'netconf error: xml parser failed with rpc-reply received', msg
 
