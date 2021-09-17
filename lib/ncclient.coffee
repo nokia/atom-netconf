@@ -1,6 +1,6 @@
 ###
   ncclient.coffee
-  Copyright (c) 2016 Nokia
+  Copyright (c) 2016-2021 Nokia
 
   Note:
   This file is part of the netconf package for the ATOM Text Editor.
@@ -60,7 +60,18 @@ class ncclient extends EventEmitter
   msgHandler: (msg) =>
     console.debug "::msgHandler()" if @debugging
 
-    xmldom = (new DOMParser).parseFromString msg, "text/xml"
+    # convert multi-byte unicode back to utf-8 single byte characters
+    unicodeString = msg.replace(/[\u00e0-\u00ef][\u0080-\u00bf][\u0080-\u00bf]/g, (c) ->
+      # convert 3 byte characters
+      cc = (c.charCodeAt(0) & 0x0f) << 12 | (c.charCodeAt(1) & 0x3f) << 6 | c.charCodeAt(2) & 0x3f
+      String.fromCharCode cc
+    ).replace(/[\u00c0-\u00df][\u0080-\u00bf]/g, (c) ->
+      # convert 2 byte characters
+      cc = (c.charCodeAt(0) & 0x1f) << 6 | c.charCodeAt(1) & 0x3f
+      String.fromCharCode cc
+    )
+
+    xmldom = (new DOMParser).parseFromString unicodeString, "text/xml"
     if xmldom==null
       @emit 'warning', 'netconf error: xml parser failed with rpc-reply received', msg
 
@@ -101,8 +112,6 @@ class ncclient extends EventEmitter
       @ncs.write ']]>]]>'
 
       @connected = true
-
-
 
       mode = atom.config.get 'atom-netconf.behavior.xmlProcessor'
       if mode == 'prettify'
@@ -184,9 +193,6 @@ class ncclient extends EventEmitter
         else
           break    # need to wait for more bytes to come
       else
-        # console.log @rawbuf.length, @rawbuf
-        # console.log @msgbuf.length, @msgbuf
-        # console.log pos
         @rawbuf = ""
         @msgbuf = ""
         pos = 0
@@ -285,14 +291,34 @@ class ncclient extends EventEmitter
           highWaterMark: 1048576
 
           write: (chunk, encoding, callback) =>
-            @rawbuf += chunk.toString('utf-8')
-            @bytes += chunk.length
+            # convert utf-8 single byte to unicode multi-byte characters
+            # required, as netconf base11 chunk-length is based on octets
+            rawString = chunk.toString('utf-8').replace(/[\u0080-\u07ff]/g, (c) ->
+              # convert 2 byte characters
+              cc = c.charCodeAt(0)
+              String.fromCharCode 0xc0 | cc >> 6, 0x80 | cc & 0x3f
+            ).replace(/[\u0800-\uffff]/g, (c) ->
+              # convert 3 byte characters
+              cc = c.charCodeAt(0)
+              String.fromCharCode 0xe0 | cc >> 12, 0x80 | cc >> 6 & 0x3F, 0x80 | cc & 0x3f
+            )
+            @rawbuf += rawString
+            @bytes += rawString.length
             @streamParser(callback)
 
           writev: (chunks, callback) =>
             for chunk in chunks
-              @rawbuf += chunk.toString('utf-8')
-              @bytes += chunk.length
+              # convert utf-8 single byte to unicode multi-byte characters
+              # required, as netconf base11 chunk-length is based on octets
+              rawString = chunk.toString('utf-8').replace(/[\u0080-\u07ff]/g, (c) ->
+                # convert 2 byte characters
+                cc = c.charCodeAt(0)
+                String.fromCharCode 0xc0 | cc >> 6, 0x80 | cc & 0x3f
+              ).replace(/[\u0800-\uffff]/g, (c) ->
+                # convert 3 byte characters
+                cc = c.charCodeAt(0)
+                String.fromCharCode 0xe0 | cc >> 12, 0x80 | cc >> 6 & 0x3F, 0x80 | cc & 0x3f
+              )
             @streamParser(callback)
         ) # End of ncWriter
 
@@ -349,7 +375,18 @@ class ncclient extends EventEmitter
                 @formating[msgid] = format
 
               if @base_1_1
-                @ncs.write "\n##{request.length}\n"
+                # convert utf-8 single byte to unicode multi-byte characters
+                # required, as netconf base11 chunk-length is based on octets
+                rawString = request.replace(/[\u0080-\u07ff]/g, (c) ->
+                  # convert 2 byte characters
+                  cc = c.charCodeAt(0)
+                  String.fromCharCode 0xc0 | cc >> 6, 0x80 | cc & 0x3f
+                ).replace(/[\u0800-\uffff]/g, (c) ->
+                  # convert 3 byte characters
+                  cc = c.charCodeAt(0)
+                  String.fromCharCode 0xe0 | cc >> 12, 0x80 | cc >> 6 & 0x3F, 0x80 | cc & 0x3f
+                )
+                @ncs.write "\n##{rawString.length}\n"
                 @ncs.write request
                 @ncs.write '\n##\n'
               else
