@@ -1,3 +1,19 @@
+> **Warning**
+> 
+> In July 2022 GitHub announced to sunset Atom, the text editor for software
+> development that the company introduced in 2011.
+> Since December 2022 the Atom repository and all other repositories remaining
+> to the Atom organization have been archived and will no longer be maintained.
+> While pre-built Atom binaries can still be downloaded, Atom package management
+> has stopped working and there are no security updates anymore.
+> 
+> With more than 5000 downloads *atom-netconf* has been the open-source editor
+> integration of choice for the NetDevOps community to practical learn about
+> the NETCONF protocol, validate NETCONF server implementations, reproduce
+> NETCONF callflows and to build custom automation use-cases. As part of our
+> committment supporting the NetDevOps community, we are planning to add
+> NETCONF support for Visual Studio Code.
+
 ## Netconf for ATOM
 
 This package provides a simplistic graphical user-interface for learning and
