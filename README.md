@@ -54,3 +54,8 @@ This project is licensed under the MIT license - see the [LICENSE](https://githu
 
 **Copyright (c) 2016-2021**  
 ![NOKIA](https://raw.githubusercontent.com/nokia/atom-netconf/master/logo-tiny.png)
+
+
+## License
+
+This project is licensed under the MIT license - see the [LICENSE](https://github.com/nokia/atom-netconf/blob/master/LICENSE).
