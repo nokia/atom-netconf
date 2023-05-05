@@ -10,9 +10,18 @@
 > With more than 5000 downloads *atom-netconf* has been the open-source editor
 > integration of choice for the NetDevOps community to practical learn about
 > the NETCONF protocol, validate NETCONF server implementations, reproduce
-> NETCONF callflows and to build custom automation use-cases. As part of our
-> committment supporting the NetDevOps community, we are planning to add
-> NETCONF support for Visual Studio Code.
+> NETCONF callflows and to build custom automation use-cases.
+> 
+> As part of our committment supporting the NetDevOps community, we have now
+> added NETCONF support for Visual Studio Code. The new extension is available
+> on [GitHub](http://github.com/nokia/vscode-netconf) and
+> [vscode marketplace](https://marketplace.visualstudio.com/items?itemName=Nokia.netconf-client).
+> Be aware, that the NETCONF examples are now available as a
+> [standalone project](https://github.com/nokia/netconf-examples) on GitHub.
+>
+> With the availability of the new *vscode-netconf* extension, we are not planning
+> to add new features and functions for *atom-netconf* anymore. Thanks for
+> your continuous support!
 
 ## Netconf for ATOM
 
